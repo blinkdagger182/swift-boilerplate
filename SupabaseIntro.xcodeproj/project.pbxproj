@@ -113,7 +113,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EE8067A42D58F69900ED4DD0 /* Build configuration list for PBXProject "SupabaseSwiftExample" */;
+			buildConfigurationList = EE8067A42D58F69900ED4DD0 /* Build configuration list for PBXProject "SupabaseIntro" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -287,15 +287,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SupabaseIntro/Resources/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"SupabaseSwiftExample/Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = 6TS2UMZGH5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SupabaseIntro/Resources/Info.plist;
+				INFOPLIST_FILE = SupabaseSwiftExample/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -316,7 +318,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SupabaseIntro/Resources/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"SupabaseSwiftExample/Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = 6TS2UMZGH5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SupabaseIntro/Resources/Info.plist;
@@ -325,6 +328,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -341,7 +345,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EE8067A42D58F69900ED4DD0 /* Build configuration list for PBXProject "SupabaseSwiftExample" */ = {
+		EE8067A42D58F69900ED4DD0 /* Build configuration list for PBXProject "SupabaseIntro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EE8067B52D58F69A00ED4DD0 /* Debug */,

@@ -29,7 +29,7 @@ Before running this example, you'll need:
    SUPABASE_PROJECT_ID=<your-project-id>
    SUPABASE_ANON_KEY=<your-anon-key>
    ```
-4. Make sure your Supabase project has the necessary tables and configurations described in the [Models.swift](/SupabaseSwiftExample/Models.swift) file. \
+4. Make sure your Supabase project has the necessary tables and configurations described in the [Models.swift](/SupabaseIntro/Models.swift) file. \
 There are also example data provided. You can run all SQLs in the Supabase SQL Editor.
 5. Use Supabase [Local Development & CLI](https://supabase.com/docs/guides/local-development) document to install Supabase CLI on your machine.
 6. Use [Deploy to Production](https://supabase.com/docs/guides/functions/deploy) guide from edge functions to deploy transfer function to your Supabase project.
@@ -51,7 +51,7 @@ For the examples on how to use supabase features, see the following files.
 
 The following files, and the specified functions, contain simple examples on how to use databases in Supabase.
 
-#### [TransactionList.swift](/SupabaseSwiftExample/TransactionList.swift)
+#### [TransactionList.swift](/SupabaseIntro/TransactionList.swift)
 
 ```swift
 class TransactionList: TransactionListProtocol {
@@ -71,7 +71,7 @@ class TransactionList: TransactionListProtocol {
 }
 ```
 
-#### [AccountOverview.swift](/SupabaseSwiftExample/AccountOverview.swift)
+#### [AccountOverview.swift](/SupabaseIntro/AccountOverview.swift)
 
 ```swift
 class AccountOverview: AccountOverviewProtocol {
@@ -87,7 +87,7 @@ class AccountOverview: AccountOverviewProtocol {
 
 ### Edge Function
 
-#### [TransactionList.swift](/SupabaseSwiftExample/TransactionList.swift)
+#### [TransactionList.swift](/SupabaseIntro/TransactionList.swift)
 
 ```swift
 class TransactionList: TransactionListProtocol {
@@ -103,7 +103,7 @@ class TransactionList: TransactionListProtocol {
 
 ### Storage
 
-#### [AccountOverview.swift](/SupabaseSwiftExample/AccountOverview.swift)
+#### [AccountOverview.swift](/SupabaseIntro/AccountOverview.swift)
 
 ```swift
 class AccountOverview: AccountOverviewProtocol {
@@ -119,7 +119,7 @@ class AccountOverview: AccountOverviewProtocol {
 
 ### Realtime
 
-#### [TransactionList.swift](/SupabaseSwiftExample/TransactionList.swift)
+#### [TransactionList.swift](/SupabaseIntro/TransactionList.swift)
 
 ```swift
 class TransactionList: TransactionListProtocol {
@@ -133,7 +133,7 @@ class TransactionList: TransactionListProtocol {
 
 ### Auth
 
-#### [LoginView.swift](/SupabaseSwiftExample/LoginView.swift)
+#### [LoginView.swift](/SupabaseIntro/LoginView.swift)
 
 ```swift
 struct LoginView: View {
@@ -143,4 +143,90 @@ struct LoginView: View {
     
     func signUp() async
 }
-```# swift-boilerplate
+```
+
+### FQA
+Supabase manages auth.users internally through its authentication system.
+
+So you can’t insert directly into auth.users, but you can fetch a user that signed up via Supabase Auth (email, magic link, etc.).
+
+If you want to bypass auth temporarily for testing, create a dummy users table instead of using auth.users like this:
+
+```sql
+-- 1. Create ENUM types
+CREATE TYPE transaction_type AS ENUM ('credit', 'debit');
+CREATE TYPE account_status AS ENUM ('open', 'restricted', 'closed');
+
+-- 2. Create 'accounts' table
+CREATE TABLE public.accounts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    status account_status NOT NULL,
+    CONSTRAINT accounts_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id) ON DELETE CASCADE
+);
+
+-- 3. Create 'transactions' table
+CREATE TABLE public.transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    account_id UUID NOT NULL,
+    type transaction_type NOT NULL,
+    amount NUMERIC(10,2) NOT NULL,
+    currency VARCHAR(3) NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT,
+    date TIMESTAMPTZ NOT NULL,
+    CONSTRAINT transactions_account_id_fkey FOREIGN KEY (account_id) REFERENCES public.accounts(id) ON DELETE CASCADE
+);
+
+-- 4. Disable RLS (Row-Level Security)
+ALTER TABLE public.accounts DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.transactions DISABLE ROW LEVEL SECURITY;
+
+-- 5. Insert sample account (replace user_id with a real user from auth.users)
+-- Run this query to get a user_id from your auth.users table:
+-- SELECT id FROM auth.users LIMIT 1;
+-- Then replace the value below:
+
+INSERT INTO public.accounts (id, user_id, created_at, status)
+VALUES (
+    '11111111-1111-1111-1111-111111111111',
+    '7479a9f3-8e53-4054-a956-ce9440d03af1',
+    now(),
+    'open'
+);
+
+-- 6. Insert sample transactions (associated with the account above)
+INSERT INTO public.transactions (id, account_id, type, amount, currency, category, description, date)
+VALUES 
+(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    '11111111-1111-1111-1111-111111111111',
+    'credit',
+    150.00,
+    'USD',
+    'Salary',
+    'Monthly salary deposit',
+    now()
+),
+(
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    '11111111-1111-1111-1111-111111111111',
+    'debit',
+    50.00,
+    'USD',
+    'Groceries',
+    'Weekly grocery shopping',
+    now()
+),
+(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc',
+    '11111111-1111-1111-1111-111111111111',
+    'debit',
+    30.00,
+    'USD',
+    'Transport',
+    'Monthly bus pass',
+    now()
+);
+```
